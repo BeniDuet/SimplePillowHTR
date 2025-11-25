@@ -11,6 +11,7 @@ from dataloader_iam import DataLoaderIAM, Batch
 from model import Model, DecoderType
 from preprocessor import Preprocessor
 import tensorflow as tf
+import PIL
 from PIL import Image
 import numpy as np
 # Disable eager mode
@@ -36,14 +37,14 @@ def char_list_from_file() -> List[str]:
     with open(FilePaths.fn_char_list) as f:
         return list(f.read())
     
-def infer(pil_image : Image) -> None:
+def infer(pil_image : PIL.Image) -> None:
     model = Model(char_list_from_file(), DecoderType.BestPath, must_restore=True, dump=False)
     """Recognizes text in image provided by file path."""
     #img = cv2.imread(fn_img, cv2.IMREAD_GRAYSCALE)
-    pil_image_bw = cv2.Mat()
-    cv2.cvtColor(pil_image, pil_image_bw, cv2.COLOR_BGR2GRAY)
-    img = np.array(pil_image)
-
+    img = None
+    img_c = np.array(pil_image)
+    img= cv2.cvtColor(img_c, cv2.COLOR_BGR2GRAY)
+    
     assert img is not None
 
     preprocessor = Preprocessor(get_img_size(), dynamic_width=True, padding=16)
@@ -53,3 +54,12 @@ def infer(pil_image : Image) -> None:
     recognized, probability = model.infer_batch(batch, True)
     print(f'Recognized: "{recognized[0]}"')
     print(f'Probability: {probability[0]}')
+    return recognized[0]
+import os
+def main() :
+    os.chdir(__file__.removesuffix("pillow_htr.py"))
+    im = Image.open("../data/word.png")
+    infer(im)
+
+if __name__ == '__main__':
+    main()
