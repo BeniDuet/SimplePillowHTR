@@ -1,4 +1,6 @@
-test
+# What this fork does:
+allow input with Pillow images instead of only file input
+
 # Handwritten Text Recognition with TensorFlow
 
 * **Update 2023/2: a [web demo](https://githubharald.github.io/text_reader.html) is available**
