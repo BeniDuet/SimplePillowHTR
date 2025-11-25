@@ -1,6 +1,14 @@
 # What this fork does:
 allow input with Pillow images instead of only file input
-
+# installation:
+````
+pip install editdistance
+pip install path
+pip install lmdb
+pip install numpy
+pip install tensorflow
+...
+````
 # Handwritten Text Recognition with TensorFlow
 
 * **Update 2023/2: a [web demo](https://githubharald.github.io/text_reader.html) is available**
