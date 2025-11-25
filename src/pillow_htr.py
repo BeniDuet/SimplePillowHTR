@@ -36,9 +36,17 @@ class FilePaths:
 def char_list_from_file() -> List[str]:
     with open(FilePaths.fn_char_list) as f:
         return list(f.read())
-    
-def infer(pil_image : PIL.Image) -> None:
+
+model = None    
+
+def init_model():
+    global model
     model = Model(char_list_from_file(), DecoderType.BestPath, must_restore=True, dump=False)
+
+def infer(pil_image : PIL.Image) -> None:
+    global model
+    if model is None:
+        model = Model(char_list_from_file(), DecoderType.BestPath, must_restore=True, dump=False)
     """Recognizes text in image provided by file path."""
     #img = cv2.imread(fn_img, cv2.IMREAD_GRAYSCALE)
     img = None
